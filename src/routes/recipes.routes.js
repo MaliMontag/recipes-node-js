@@ -1,3 +1,4 @@
+// נתיבי מתכונים: צפייה, חיפוש, יצירה, עדכון ומחיקה.
 const express = require("express");
 const Recipe = require("../models/Recipe");
 const validate = require("../middlewares/validate");
@@ -9,10 +10,12 @@ const { syncCategoriesByCodes, removeRecipeFromCategories } = require("../servic
 
 const router = express.Router();
 
+// יוצר פילטר נראות: אורח רואה ציבורי, משתמש רואה גם את שלו.
 function buildVisibilityFilter(user) {
   return user ? { $or: [{ isPrivate: false }, { createdBy: user._id }] } : { isPrivate: false };
 }
 
+// מחזיר רשימת מתכונים עם חיפוש, עימוד, וסינון לפי נראות.
 router.get("/", optionalAuth, validate(listRecipesSchema, "query"), async (req, res, next) => {
   try {
     const { search = "", limit, page } = req.query;
@@ -56,6 +59,7 @@ router.get(
   "/prep-time/:minutes",
   optionalAuth,
   validate(prepTimeSchema, "params"),
+  // מחזיר מתכונים שזמן ההכנה שלהם קטן או שווה לערך שנשלח.
   async (req, res, next) => {
   try {
     const visibilityFilter = buildVisibilityFilter(req.user);
@@ -70,6 +74,7 @@ router.get(
   }
 );
 
+// מחזיר מתכון לפי קוד, כולל בדיקת גישה למתכון פרטי.
 router.get("/:code", optionalAuth, async (req, res, next) => {
   try {
     const recipe = await Recipe.findOne({ code: req.params.code.toUpperCase() }).populate(
@@ -88,6 +93,7 @@ router.get("/:code", optionalAuth, async (req, res, next) => {
   }
 });
 
+// יוצר מתכון חדש ומשייך אותו לקטגוריות המתאימות.
 router.post("/", requireAuth, validate(recipeSchema), async (req, res, next) => {
   try {
     const recipe = await Recipe.create({
@@ -103,6 +109,7 @@ router.post("/", requireAuth, validate(recipeSchema), async (req, res, next) => 
   }
 });
 
+// מעדכן מתכון קיים אם המשתמש הוא הבעלים או אדמין.
 router.put("/:code", requireAuth, validate(recipeSchema), async (req, res, next) => {
   try {
     const recipe = await Recipe.findOne({ code: req.params.code.toUpperCase() });
@@ -123,6 +130,7 @@ router.put("/:code", requireAuth, validate(recipeSchema), async (req, res, next)
   }
 });
 
+// מוחק מתכון קיים ומנקה את השיוך שלו מהקטגוריות.
 router.delete("/:code", requireAuth, async (req, res, next) => {
   try {
     const recipe = await Recipe.findOne({ code: req.params.code.toUpperCase() });

@@ -1,3 +1,4 @@
+// נתיבי קטגוריות: שליפה בסיסית ושליפה עם מתכונים לפי הרשאות צפייה.
 const express = require("express");
 const Category = require("../models/Category");
 const Recipe = require("../models/Recipe");
@@ -6,10 +7,12 @@ const { optionalAuth } = require("../middlewares/auth");
 
 const router = express.Router();
 
+// מגדיר אילו מתכונים ניתנים לצפייה לפי מצב התחברות.
 function recipeVisibilityFilter(user) {
   return user ? { $or: [{ isPrivate: false }, { createdBy: user._id }] } : { isPrivate: false };
 }
 
+// מחזיר את כל הקטגוריות לפי סדר קוד עולה.
 router.get("/", async (req, res, next) => {
   try {
     const categories = await Category.find().sort({ code: 1 });
@@ -19,6 +22,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+// מחזיר כל קטגוריה עם רשימת המתכונים המותרים לצפייה.
 router.get("/with-recipes", optionalAuth, async (req, res, next) => {
   try {
     const categories = await Category.find().sort({ code: 1 }).lean();
@@ -45,6 +49,7 @@ router.get("/with-recipes", optionalAuth, async (req, res, next) => {
   }
 });
 
+// מחזיר קטגוריה ספציפית לפי קוד או תיאור, כולל מתכונים תואמים.
 router.get("/:identifier", optionalAuth, async (req, res, next) => {
   try {
     const { identifier } = req.params;

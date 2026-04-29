@@ -1,3 +1,4 @@
+// מודל קטגוריה: מגדיר קוד, תיאור, שיוכי מתכונים ומונה כמות.
 const mongoose = require("mongoose");
 
 const categorySchema = new mongoose.Schema(

@@ -1,7 +1,9 @@
+// קובץ ההפעלה הראשי: טוען הגדרות, מתחבר למסד, ומרים את השרת.
 const app = require("./app");
 const connectDB = require("./config/db");
 const env = require("./config/env");
 
+// מפעיל את השרת בצורה בטוחה עם בדיקות תקינות בסיסיות.
 async function start() {
   try {
     if (!env.jwtSecret) {

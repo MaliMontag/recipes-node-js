@@ -1,5 +1,7 @@
+// מידלוור ולידציה: בודק קלט לפי סכמת Joi ומחזיר שגיאה אם לא תקין.
 const AppError = require("../utils/appError");
 
+// מייצר פונקציית בדיקה ל-body/query/params לפי צורך.
 function validate(schema, source = "body") {
   return (req, res, next) => {
     const { error, value } = schema.validate(req[source], {

@@ -1,3 +1,4 @@
+// נתיבי אימות: הרשמה והתחברות משתמשים.
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -9,6 +10,7 @@ const AppError = require("../utils/appError");
 
 const router = express.Router();
 
+// יוצר משתמש חדש לאחר ולידציה והצפנת סיסמה.
 router.post("/register", validate(registerSchema), async (req, res, next) => {
   try {
     const { username, email, password, address } = req.body;
@@ -39,6 +41,7 @@ router.post("/register", validate(registerSchema), async (req, res, next) => {
   }
 });
 
+// מאמת פרטי התחברות ומחזיר JWT למשתמש קיים.
 router.post("/login", validate(loginSchema), async (req, res, next) => {
   try {
     const { email, password } = req.body;

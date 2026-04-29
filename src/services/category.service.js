@@ -1,5 +1,7 @@
+// שירות קטגוריות: אחראי על סנכרון מתכונים מול קטגוריות.
 const Category = require("../models/Category");
 
+// מחשב מחדש את כמות המתכונים בכל קטגוריה.
 async function recalculateRecipesCount() {
   const categories = await Category.find({}, "_id recipes");
   await Promise.all(
@@ -9,6 +11,7 @@ async function recalculateRecipesCount() {
   );
 }
 
+// מסנכרן שיוך מתכון לקטגוריות לפי קודים שנשלחו.
 async function syncCategoriesByCodes(categoryCodes, recipeId) {
   const normalized = [...new Set(categoryCodes.map((item) => item.toUpperCase()))];
 
@@ -34,6 +37,7 @@ async function syncCategoriesByCodes(categoryCodes, recipeId) {
   await recalculateRecipesCount();
 }
 
+// מסיר מתכון מכל הקטגוריות ומעדכן מונים.
 async function removeRecipeFromCategories(recipeId) {
   await Category.updateMany({}, { $pull: { recipes: recipeId } });
   await recalculateRecipesCount();

@@ -1,3 +1,4 @@
+// סכמות ולידציה ליצירה, עדכון וסינון של מתכונים.
 const Joi = require("joi");
 
 const layerSchema = Joi.object({

@@ -1,3 +1,4 @@
+// מודל מתכון: מגדיר את שדות המתכון, שכבות, וניהול בעלות.
 const mongoose = require("mongoose");
 
 const layerSchema = new mongoose.Schema(

@@ -1,8 +1,10 @@
+// סקריפט תפעולי ליצירה או שדרוג של משתמש אדמין.
 const bcrypt = require("bcryptjs");
 const connectDB = require("../config/db");
 const env = require("../config/env");
 const User = require("../models/User");
 
+// יוצר אדמין חדש או משדרג משתמש קיים לתפקיד אדמין.
 async function createAdmin() {
   const email = process.env.ADMIN_EMAIL;
   const password = process.env.ADMIN_PASSWORD;

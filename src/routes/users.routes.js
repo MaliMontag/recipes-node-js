@@ -1,3 +1,4 @@
+// נתיבי משתמשים: ניהול משתמשים, סיסמאות ומחיקה עם הרשאות.
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const User = require("../models/User");
@@ -8,6 +9,7 @@ const AppError = require("../utils/appError");
 
 const router = express.Router();
 
+// מחזיר את כל המשתמשים (ללא סיסמאות) למנהל מערכת בלבד.
 router.get("/", requireAuth, requireRole("admin"), async (req, res, next) => {
   try {
     const users = await User.find().select("-password");
@@ -21,6 +23,7 @@ router.put(
   "/:id/password",
   requireAuth,
   validate(updatePasswordSchema),
+  // מעדכן סיסמה למשתמש עצמו או לאדמין, עם בדיקות אבטחה מתאימות.
   async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -48,6 +51,7 @@ router.put(
   }
 );
 
+// מוחק משתמש אם הפונה הוא המשתמש עצמו או מנהל מערכת.
 router.delete("/:id", requireAuth, async (req, res, next) => {
   try {
     const { id } = req.params;

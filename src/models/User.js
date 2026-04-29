@@ -1,3 +1,4 @@
+// מודל משתמש: מגדיר את מבנה נתוני המשתמשים והרשאות תפקיד.
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(

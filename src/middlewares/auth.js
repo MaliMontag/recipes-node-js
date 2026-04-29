@@ -1,8 +1,10 @@
+// מידלוורים לאימות משתמשים והרשאות לפי תפקיד.
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const env = require("../config/env");
 const AppError = require("../utils/appError");
 
+// דורש טוקן תקין ומצרף את המשתמש לבקשה.
 async function requireAuth(req, res, next) {
   const authHeader = req.headers.authorization || "";
   const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
@@ -26,6 +28,7 @@ async function requireAuth(req, res, next) {
   }
 }
 
+// מנסה לזהות משתמש מטוקן, אך ממשיך גם בלי אימות.
 async function optionalAuth(req, res, next) {
   const authHeader = req.headers.authorization || "";
   const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
@@ -42,6 +45,7 @@ async function optionalAuth(req, res, next) {
   }
 }
 
+// מייצר מידלוור שמאפשר גישה רק לתפקידים מורשים.
 function requireRole(...roles) {
   return (req, res, next) => {
     if (!req.user) {

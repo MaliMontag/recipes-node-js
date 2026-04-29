@@ -1,3 +1,4 @@
+// קובץ בניית האפליקציה: מגדיר middlewares, נתיבים, וטיפול בשגיאות.
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
@@ -13,6 +14,7 @@ app.use(cors({ origin: "*" }));
 app.use(express.json());
 app.use(morgan("dev"));
 
+// נתיב בריאות בסיסי לבדיקה שהשרת פעיל.
 app.get("/", (req, res) => {
   res.json({ message: "Recipes API is running." });
 });

@@ -1,6 +1,8 @@
+// מודול חיבור למסד הנתונים MongoDB דרך Mongoose.
 const mongoose = require("mongoose");
 const env = require("./env");
 
+// פותח חיבור למסד לאחר בדיקה שכתובת החיבור קיימת.
 async function connectDB() {
   if (!env.mongoUri) {
     throw new Error("Missing MONGO_URI in environment variables.");

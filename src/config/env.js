@@ -1,3 +1,4 @@
+// מודול קונפיגורציה: טוען ומרכז משתני סביבה לשימוש בכל השרת.
 const dotenv = require("dotenv");
 
 dotenv.config();
