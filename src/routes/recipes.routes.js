@@ -9,14 +9,16 @@ const { syncCategoriesByCodes, removeRecipeFromCategories } = require("../servic
 
 const router = express.Router();
 
+function buildVisibilityFilter(user) {
+  return user ? { $or: [{ isPrivate: false }, { createdBy: user._id }] } : { isPrivate: false };
+}
+
 router.get("/", optionalAuth, validate(listRecipesSchema, "query"), async (req, res, next) => {
   try {
     const { search = "", limit, page } = req.query;
     const skip = (page - 1) * limit;
 
-    const visibilityFilter = req.user
-      ? { $or: [{ isPrivate: false }, { createdBy: req.user._id }] }
-      : { isPrivate: false };
+    const visibilityFilter = buildVisibilityFilter(req.user);
 
     const textFilter = search
       ? {
@@ -50,17 +52,23 @@ router.get("/", optionalAuth, validate(listRecipesSchema, "query"), async (req, 
   }
 });
 
-router.get("/prep-time/:minutes", validate(prepTimeSchema, "params"), async (req, res, next) => {
+router.get(
+  "/prep-time/:minutes",
+  optionalAuth,
+  validate(prepTimeSchema, "params"),
+  async (req, res, next) => {
   try {
+    const visibilityFilter = buildVisibilityFilter(req.user);
     const recipes = await Recipe.find({
       prepTimeMinutes: { $lte: Number(req.params.minutes) },
-      isPrivate: false,
+      ...visibilityFilter,
     }).sort({ prepTimeMinutes: 1 });
     return res.json(recipes);
   } catch (error) {
     return next(error);
   }
-});
+  }
+);
 
 router.get("/:code", optionalAuth, async (req, res, next) => {
   try {

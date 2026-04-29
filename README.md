@@ -14,6 +14,39 @@
    npm run dev
    ```
 
+## יצירת משתמש מנהל (Admin)
+
+להרצה חד פעמית (או לעדכון משתמש קיים ל-admin):
+
+```bash
+npm run seed:admin
+```
+
+הסקריפט משתמש במשתני הסביבה:
+- `ADMIN_EMAIL`
+- `ADMIN_PASSWORD`
+- `ADMIN_USERNAME` (אופציונלי)
+- `ADMIN_ADDRESS` (אופציונלי)
+
+## צד לקוח (Client)
+
+נבנה פרויקט לקוח נפרד בתיקיה `client` (Vite + TypeScript) שמתחבר לשרת.
+
+הרצה:
+
+```bash
+cd client
+npm install
+npm run dev
+```
+
+הלקוח מאפשר:
+- הרשמה והתחברות
+- שמירת טוקן ב-localStorage
+- יצירת מתכון
+- שליפת מתכונים עם חיפוש + paging
+- שליפת קטגוריות
+
 ## מבנה הפרויקט
 
 - `src/config` - חיבור DB ומשתני סביבה
@@ -76,3 +109,4 @@
 - Pagination + Regex text search
 - Public/private recipes לפי טוקן
 - סנכרון אוטומטי של קטגוריות בעת יצירה/עדכון/מחיקה של מתכונים
+- collections נפרדים ל-Postman לפי Resource בתיקיה `postman`

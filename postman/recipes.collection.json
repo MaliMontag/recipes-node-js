@@ -1,0 +1,73 @@
+{
+  "info": {
+    "name": "Recipes Resource",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000/api" },
+    { "key": "token", "value": "" },
+    { "key": "recipeCode", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "List Recipes",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/recipes?search=&limit=5&page=1"
+      }
+    },
+    {
+      "name": "Get Recipe By Code",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{baseUrl}}/recipes/{{recipeCode}}"
+      }
+    },
+    {
+      "name": "Get Recipes By Prep Time",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/recipes/prep-time/30"
+      }
+    },
+    {
+      "name": "Create Recipe",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{baseUrl}}/recipes",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Pasta Alfredo\",\n  \"description\": \"Creamy pasta\",\n  \"categoryCodes\": [\"DINNER\"],\n  \"prepTimeMinutes\": 25,\n  \"difficulty\": 2,\n  \"image\": \"\",\n  \"layers\": [{\"description\": \"Main\", \"ingredients\": [\"Pasta\", \"Cheese\"]}],\n  \"isPrivate\": false\n}"
+        }
+      }
+    },
+    {
+      "name": "Update Recipe",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{baseUrl}}/recipes/{{recipeCode}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Updated Pasta\",\n  \"description\": \"Updated description\",\n  \"categoryCodes\": [\"DINNER\"],\n  \"prepTimeMinutes\": 20,\n  \"difficulty\": 3,\n  \"image\": \"\",\n  \"layers\": [{\"description\": \"Main\", \"ingredients\": [\"Pasta\", \"Sauce\"]}],\n  \"isPrivate\": true\n}"
+        }
+      }
+    },
+    {
+      "name": "Delete Recipe",
+      "request": {
+        "method": "DELETE",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{baseUrl}}/recipes/{{recipeCode}}"
+      }
+    }
+  ]
+}

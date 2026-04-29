@@ -18,7 +18,7 @@ const loginSchema = Joi.object({
 });
 
 const updatePasswordSchema = Joi.object({
-  oldPassword: Joi.string().required(),
+  oldPassword: Joi.string().optional().allow(""),
   newPassword: Joi.string().pattern(passwordRegex).required().messages({
     "string.pattern.base":
       "Password must include upper/lower letters, number, and special character.",

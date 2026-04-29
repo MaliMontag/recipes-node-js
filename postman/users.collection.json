@@ -1,0 +1,44 @@
+{
+  "info": {
+    "name": "Users Resource",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000/api" },
+    { "key": "token", "value": "" },
+    { "key": "userId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Get All Users (Admin)",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{baseUrl}}/users"
+      }
+    },
+    {
+      "name": "Update Password",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{baseUrl}}/users/{{userId}}/password",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"oldPassword\": \"StrongP@ss1\",\n  \"newPassword\": \"NewStrongP@ss2\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Delete User",
+      "request": {
+        "method": "DELETE",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{baseUrl}}/users/{{userId}}"
+      }
+    }
+  ]
+}

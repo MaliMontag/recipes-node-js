@@ -33,6 +33,7 @@ router.put(
       if (!user) return next(new AppError("User not found.", 404));
 
       if (req.user.role !== "admin") {
+        if (!oldPassword) return next(new AppError("Old password is required.", 400));
         const isOldValid = await bcrypt.compare(oldPassword, user.password);
         if (!isOldValid) return next(new AppError("Old password is incorrect.", 400));
       }

@@ -1,0 +1,33 @@
+{
+  "info": {
+    "name": "Categories Resource",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000/api" },
+    { "key": "identifier", "value": "DINNER" }
+  ],
+  "item": [
+    {
+      "name": "Get All Categories",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/categories"
+      }
+    },
+    {
+      "name": "Get Categories With Recipes",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/categories/with-recipes"
+      }
+    },
+    {
+      "name": "Get Category By Code Or Name",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/categories/{{identifier}}"
+      }
+    }
+  ]
+}
